@@ -3,12 +3,14 @@ package com.example.cacatoid
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import com.example.cacatoid.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -25,24 +27,21 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupPuzzleSpinner()
+        setupPuzzleDropdown()
         setupButtons()
         observeViewModel()
     }
 
-    private fun setupPuzzleSpinner() {
+    private fun setupPuzzleDropdown() {
         val labels = puzzles.map { "Puzzle $it" }
-        binding.puzzleSpinner.adapter = ArrayAdapter(
-            this, android.R.layout.simple_spinner_dropdown_item, labels
+        binding.puzzleDropdown.setAdapter(
+            ArrayAdapter(this, android.R.layout.simple_list_item_1, labels)
         )
-        binding.puzzleSpinner.setSelection(puzzles.indexOf(viewModel.selectedPuzzle))
-        binding.puzzleSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(p: AdapterView<*>?, v: android.view.View?, pos: Int, id: Long) {
-                    viewModel.selectedPuzzle = puzzles[pos]
-                }
-                override fun onNothingSelected(p: AdapterView<*>?) {}
-            }
+        val initial = puzzles.indexOf(viewModel.selectedPuzzle).coerceAtLeast(0)
+        binding.puzzleDropdown.setText(labels[initial], false)
+        binding.puzzleDropdown.setOnItemClickListener { _, _, pos, _ ->
+            viewModel.selectedPuzzle = puzzles[pos]
+        }
     }
 
     private fun setupButtons() {
@@ -55,24 +54,26 @@ class MainActivity : AppCompatActivity() {
         viewModel.running.observe(this) { running ->
             binding.startButton.isEnabled = !running
             binding.stopButton.isEnabled = running
-            binding.puzzleSpinner.isEnabled = !running
+            binding.puzzleInputLayout.isEnabled = !running
+            binding.progress.visibility = if (running) View.VISIBLE else View.GONE
             binding.statusText.text = getString(
                 if (running) R.string.status_running else R.string.status_stopped
             )
+            tintStatusDot(if (running) R.color.success else R.color.dot_idle)
         }
 
         viewModel.stats.observe(this) { s ->
             binding.currentKeyText.text =
                 if (s.currentKeyHex.isEmpty()) getString(R.string.dash) else s.currentKeyHex
-            binding.speedText.text = "Speed: ${formatNumber(s.keysPerSec)} keys/sec"
-            binding.totalText.text = "Total checked: ${formatNumber(s.totalChecked)}"
+            binding.speedValue.text = formatNumber(s.keysPerSec)
+            binding.totalValue.text = formatNumber(s.totalChecked)
         }
 
         viewModel.found.observe(this) { found ->
             if (found == null) {
-                binding.resultPanel.visibility = android.view.View.GONE
+                binding.resultPanel.visibility = View.GONE
             } else {
-                binding.resultPanel.visibility = android.view.View.VISIBLE
+                binding.resultPanel.visibility = View.VISIBLE
                 binding.resultText.text = buildString {
                     append("Puzzle:   ${found.puzzle}\n")
                     append("Address:  ${found.address}\n\n")
@@ -80,9 +81,15 @@ class MainActivity : AppCompatActivity() {
                     append("WIF:      ${found.wif}")
                 }
                 binding.statusText.text = getString(R.string.match_found)
+                tintStatusDot(R.color.success)
                 Toast.makeText(this, R.string.match_found, Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun tintStatusDot(colorRes: Int) {
+        binding.statusDot.backgroundTintList =
+            ColorStateList.valueOf(ContextCompat.getColor(this, colorRes))
     }
 
     private fun copyKey() {

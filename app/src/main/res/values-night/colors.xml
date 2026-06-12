@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Semantic (dark) -->
+    <color name="success">#74DBA0</color>
+    <color name="success_container">#1E3A2A</color>
+    <color name="on_success_container">#BFEFCF</color>
+    <color name="dot_idle">#6E675C</color>
+
+    <!-- Mono code surface (dark) -->
+    <color name="code_box_bg">#1D1B17</color>
+    <color name="code_box_stroke">#36322B</color>
+</resources>
