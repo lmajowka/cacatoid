@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Cacatoid</string>
+    <string name="subtitle">Bitcoin puzzle key search (71 / 72 / 73)</string>
+    <string name="select_puzzle">Select puzzle</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="status_idle">Status: idle</string>
+    <string name="status_running">Status: searching…</string>
+    <string name="status_stopped">Status: stopped</string>
+    <string name="label_current_key">Current key (hex)</string>
+    <string name="label_speed">Speed: 0 keys/sec</string>
+    <string name="label_total">Total checked: 0</string>
+    <string name="match_found">MATCH FOUND!</string>
+    <string name="copy_key">Copy private key</string>
+    <string name="dash">—</string>
+</resources>
