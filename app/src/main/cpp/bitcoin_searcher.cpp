@@ -22,12 +22,21 @@ using Clock = std::chrono::steady_clock;
 
 namespace {
 
-// ---- Target addresses for puzzles 71, 72, 73 (compressed P2PKH) ----
-const char* TARGET_ADDR[3] = {
-    "1PWo3JeB9jrGwfHDNpdGK54CRas7fsVzXU", // puzzle 71
-    "1JTK7s9YVYywfm5XUH7RNhHJH1LshCaRFR", // puzzle 72
-    "12VVRNPi4SJqUTsp6FmqDqY5sGosDtysn4", // puzzle 73
+// ---- Target addresses (compressed P2PKH) keyed by puzzle number ----
+// Puzzle 20 is already solved (key 0xd2c55); its tiny 2^19..2^20-1 range makes
+// it a fast end-to-end test that the search actually finds a match.
+struct Target { int puzzle; const char* addr; };
+const Target TARGETS[] = {
+    { 20, "1HsMJxNiV7TLxmoF6uJNkydxPFDog4NQum" },
+    { 71, "1PWo3JeB9jrGwfHDNpdGK54CRas7fsVzXU" },
+    { 72, "1JTK7s9YVYywfm5XUH7RNhHJH1LshCaRFR" },
+    { 73, "12VVRNPi4SJqUTsp6FmqDqY5sGosDtysn4" },
 };
+
+const char* target_address(int puzzle) {
+    for (const auto& t : TARGETS) if (t.puzzle == puzzle) return t.addr;
+    return nullptr;
+}
 
 constexpr int BATCH = 1000;
 
@@ -245,7 +254,8 @@ Java_com_example_cacatoid_NativeBridge_nativeStart(JNIEnv* env, jobject /*thiz*/
     std::lock_guard<std::mutex> lock(g_mutex);
     cleanup_locked(env); // join any threads from a previous (finished) run
 
-    if (puzzle < 71 || puzzle > 73) {
+    const char* addr = target_address(puzzle);
+    if (!addr) {
         LOGE("unsupported puzzle %d", (int)puzzle);
         return;
     }
@@ -265,8 +275,7 @@ Java_com_example_cacatoid_NativeBridge_nativeStart(JNIEnv* env, jobject /*thiz*/
     // Decode the matching target address into a 20-byte HASH160.
     ec::init();
     static uint8_t targets[3][20];
-    int idx = puzzle - 71;
-    std::vector<uint8_t> decoded = base58check_decode(TARGET_ADDR[idx]);
+    std::vector<uint8_t> decoded = base58check_decode(addr);
     if (decoded.size() != 21) {
         LOGE("failed to decode target address for puzzle %d", (int)puzzle);
         env->DeleteGlobalRef(g_listener);

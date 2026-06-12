@@ -16,7 +16,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: SearchViewModel by viewModels()
 
-    private val puzzles = listOf(71, 72, 73)
+    // Puzzle 20 is solved and has a tiny range — included so the search can be
+    // tested end to end (it finds the key almost instantly).
+    private val puzzles = listOf(20, 71, 72, 73)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
