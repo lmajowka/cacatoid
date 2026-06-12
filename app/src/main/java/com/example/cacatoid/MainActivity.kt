@@ -1,14 +1,18 @@
 package com.example.cacatoid
 
+import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.content.res.ColorStateList
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.example.cacatoid.databinding.ActivityMainBinding
@@ -22,6 +26,9 @@ class MainActivity : AppCompatActivity() {
     // tested end to end (it finds the key almost instantly).
     private val puzzles = listOf(20, 71, 72, 73)
 
+    private val notificationPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -30,6 +37,19 @@ class MainActivity : AppCompatActivity() {
         setupPuzzleDropdown()
         setupButtons()
         observeViewModel()
+        requestNotificationPermission()
+    }
+
+    // The search runs as a foreground service; without this permission its
+    // ongoing notification stays hidden on Android 13+, though the search itself
+    // still runs.
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
     }
 
     private fun setupPuzzleDropdown() {
