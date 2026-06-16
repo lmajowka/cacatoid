@@ -96,7 +96,7 @@ struct ContentView: View {
     private var truncatedKey: String {
         let h = vm.stats.currentKeyHex
         guard !h.isEmpty else { return "—" }
-        return String(h.prefix(20)) + "…"
+        return "…" + String(h.suffix(20))
     }
 
     private func statRow(_ label: String, value: String) -> some View {
