@@ -1,0 +1,406 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8AEE18324C5F4042A32B75B0 /* CacatoidApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94570A3956F246A998D509E5 /* CacatoidApp.swift */; };
+		AC4B3C0917244E05A6C70310 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6135DF16139749F4B4B3D0C0 /* ContentView.swift */; };
+		571AA4C4A3354251B78768DF /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84935CD73432490E847F39EF /* SearchViewModel.swift */; };
+		28CC7CEC17B740E0A1CCB5C2 /* searcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86024D3A582A49148A2AA4EA /* searcher.cpp */; };
+		0955F1348ED64FD496CB0F2F /* secp256k1_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC259B38CB764C038B5EA183 /* secp256k1_utils.cpp */; };
+		299FB32922FE44DE825FD960 /* sha256.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32C2D8DD595B4690BAB1A7C7 /* sha256.cpp */; };
+		D6DDCB2F1DBC4EEF8D84F4D5 /* ripemd160.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0E9C5F11E704350845E7599 /* ripemd160.cpp */; };
+		2A555C00711E4062B895D52E /* base58.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 656FB8B28DC94B168288B214 /* base58.cpp */; };
+		EEC4921A89964E329C841729 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F276334E60C1433EA954B818 /* Info.plist */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		437126688FFA45B780B32EFD /* Cacatoid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cacatoid.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		94570A3956F246A998D509E5 /* CacatoidApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacatoidApp.swift; sourceTree = "<group>"; };
+		6135DF16139749F4B4B3D0C0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		84935CD73432490E847F39EF /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		9660C835405A4DBBA4A85CB6 /* Cacatoid-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Cacatoid-Bridging-Header.h"; sourceTree = "<group>"; };
+		F276334E60C1433EA954B818 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		86024D3A582A49148A2AA4EA /* searcher.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = searcher.cpp; sourceTree = "<group>"; };
+		A63B1B59A64B4512953F3FD0 /* searcher_bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = searcher_bridge.h; sourceTree = "<group>"; };
+		AC259B38CB764C038B5EA183 /* secp256k1_utils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = secp256k1_utils.cpp; sourceTree = "<group>"; };
+		02ABC2B7FE54432EA5C86003 /* secp256k1_utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = secp256k1_utils.h; sourceTree = "<group>"; };
+		32C2D8DD595B4690BAB1A7C7 /* sha256.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sha256.cpp; sourceTree = "<group>"; };
+		E32CCD02D6644847A755272F /* sha256.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sha256.h; sourceTree = "<group>"; };
+		F0E9C5F11E704350845E7599 /* ripemd160.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ripemd160.cpp; sourceTree = "<group>"; };
+		7D42791D73E14B64A95A036B /* ripemd160.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ripemd160.h; sourceTree = "<group>"; };
+		656FB8B28DC94B168288B214 /* base58.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = base58.cpp; sourceTree = "<group>"; };
+		9CBBD624888E41BA90D55865 /* base58.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = base58.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DCAEA4A661004E9A8C9F8EFD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8160ABFC88D1446BA9E181EE /* (root) */ = {
+			isa = PBXGroup;
+			children = (
+				B17C6728F7D946D188121B47 /* Cacatoid */,
+				5688F71DA9CA4FCB8ED47F53 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5688F71DA9CA4FCB8ED47F53 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				437126688FFA45B780B32EFD /* Cacatoid.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B17C6728F7D946D188121B47 /* Cacatoid */ = {
+			isa = PBXGroup;
+			children = (
+				94570A3956F246A998D509E5 /* CacatoidApp.swift */,
+				6135DF16139749F4B4B3D0C0 /* ContentView.swift */,
+				84935CD73432490E847F39EF /* SearchViewModel.swift */,
+				9660C835405A4DBBA4A85CB6 /* Cacatoid-Bridging-Header.h */,
+				F276334E60C1433EA954B818 /* Info.plist */,
+				63233AC0B44B4ED69B14C7A0 /* Native */,
+			);
+			path = Cacatoid;
+			sourceTree = "<group>";
+		};
+		63233AC0B44B4ED69B14C7A0 /* Native */ = {
+			isa = PBXGroup;
+			children = (
+				A63B1B59A64B4512953F3FD0 /* searcher_bridge.h */,
+				86024D3A582A49148A2AA4EA /* searcher.cpp */,
+				02ABC2B7FE54432EA5C86003 /* secp256k1_utils.h */,
+				AC259B38CB764C038B5EA183 /* secp256k1_utils.cpp */,
+				E32CCD02D6644847A755272F /* sha256.h */,
+				32C2D8DD595B4690BAB1A7C7 /* sha256.cpp */,
+				7D42791D73E14B64A95A036B /* ripemd160.h */,
+				F0E9C5F11E704350845E7599 /* ripemd160.cpp */,
+				9CBBD624888E41BA90D55865 /* base58.h */,
+				656FB8B28DC94B168288B214 /* base58.cpp */,
+			);
+			path = Native;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		93F3C990D1D94F83A94B6A79 /* Cacatoid */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 80B2783A6DE34F07AA9F3A40 /* Build configuration list for PBXNativeTarget "Cacatoid" */;
+			buildPhases = (
+				910A1E311E35480FA877B8B1 /* Sources */,
+				DCAEA4A661004E9A8C9F8EFD /* Frameworks */,
+				B2B9785C236945D092BA2AB2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Cacatoid;
+			productName = Cacatoid;
+			productReference = 437126688FFA45B780B32EFD /* Cacatoid.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4540FE56615544D0907266CF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1530;
+				LastUpgradeCheck = 1530;
+				TargetAttributes = {
+					93F3C990D1D94F83A94B6A79 = {
+						CreatedOnToolsVersion = 15.3;
+					};
+				};
+			};
+			buildConfigurationList = 013F27DF17DD4F45A7C44BA1 /* Build configuration list for PBXProject "Cacatoid" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8160ABFC88D1446BA9E181EE;
+			productRefGroup = 5688F71DA9CA4FCB8ED47F53 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				93F3C990D1D94F83A94B6A79 /* Cacatoid */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B2B9785C236945D092BA2AB2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		910A1E311E35480FA877B8B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8AEE18324C5F4042A32B75B0 /* CacatoidApp.swift in Sources */,
+				AC4B3C0917244E05A6C70310 /* ContentView.swift in Sources */,
+				571AA4C4A3354251B78768DF /* SearchViewModel.swift in Sources */,
+				28CC7CEC17B740E0A1CCB5C2 /* searcher.cpp in Sources */,
+				0955F1348ED64FD496CB0F2F /* secp256k1_utils.cpp in Sources */,
+				299FB32922FE44DE825FD960 /* sha256.cpp in Sources */,
+				D6DDCB2F1DBC4EEF8D84F4D5 /* ripemd160.cpp in Sources */,
+				2A555C00711E4062B895D52E /* base58.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F527AD71EB054917AF54B3F5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8C3867468C3F4DDE973BD80E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1DB901214AF14DE68440F425 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/include",
+					"$(SRCROOT)/Cacatoid/Native",
+				);
+				INFOPLIST_FILE = "Cacatoid/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/lib",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lsecp256k1",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.lmajowka.cacatoid";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Cacatoid/Cacatoid-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CDCECFA868624312A0472771 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/include",
+					"$(SRCROOT)/Cacatoid/Native",
+				);
+				INFOPLIST_FILE = "Cacatoid/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/lib",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(inherited)",
+					"-funroll-loops",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lsecp256k1",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.lmajowka.cacatoid";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Cacatoid/Cacatoid-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		013F27DF17DD4F45A7C44BA1 /* Build configuration list for PBXProject "Cacatoid" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F527AD71EB054917AF54B3F5 /* Debug */,
+				8C3867468C3F4DDE973BD80E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		80B2783A6DE34F07AA9F3A40 /* Build configuration list for PBXNativeTarget "Cacatoid" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DB901214AF14DE68440F425 /* Debug */,
+				CDCECFA868624312A0472771 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = 4540FE56615544D0907266CF /* Project object */;
+}
