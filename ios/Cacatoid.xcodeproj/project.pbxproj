@@ -16,6 +16,7 @@
 		D6DDCB2F1DBC4EEF8D84F4D5 /* ripemd160.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0E9C5F11E704350845E7599 /* ripemd160.cpp */; };
 		2A555C00711E4062B895D52E /* base58.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 656FB8B28DC94B168288B214 /* base58.cpp */; };
 		EEC4921A89964E329C841729 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F276334E60C1433EA954B818 /* Info.plist */; };
+		B65AFD9776F0426FAC6247EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5320C9E157D1496289109B59 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		7D42791D73E14B64A95A036B /* ripemd160.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ripemd160.h; sourceTree = "<group>"; };
 		656FB8B28DC94B168288B214 /* base58.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = base58.cpp; sourceTree = "<group>"; };
 		9CBBD624888E41BA90D55865 /* base58.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = base58.h; sourceTree = "<group>"; };
+		5320C9E157D1496289109B59 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 				6135DF16139749F4B4B3D0C0 /* ContentView.swift */,
 				84935CD73432490E847F39EF /* SearchViewModel.swift */,
 				9660C835405A4DBBA4A85CB6 /* Cacatoid-Bridging-Header.h */,
+				5320C9E157D1496289109B59 /* Assets.xcassets */,
 				F276334E60C1433EA954B818 /* Info.plist */,
 				63233AC0B44B4ED69B14C7A0 /* Native */,
 			);
@@ -152,6 +155,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B65AFD9776F0426FAC6247EF /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,6 +333,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.lmajowka.cacatoid";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				SWIFT_OBJC_BRIDGING_HEADER = "Cacatoid/Cacatoid-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -372,6 +377,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.lmajowka.cacatoid";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				SWIFT_OBJC_BRIDGING_HEADER = "Cacatoid/Cacatoid-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
