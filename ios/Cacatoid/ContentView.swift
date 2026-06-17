@@ -96,7 +96,10 @@ struct ContentView: View {
     private var truncatedKey: String {
         let h = vm.stats.currentKeyHex
         guard !h.isEmpty else { return "—" }
-        return "…" + String(h.suffix(20))
+        // Hex já chega sem zeros à frente (ex: "4a3f..." para puzzle 71).
+        // Se couber em 20 chars mostra completo; senão trunca no meio.
+        if h.count <= 20 { return h }
+        return String(h.prefix(8)) + "…" + String(h.suffix(8))
     }
 
     private func statRow(_ label: String, value: String) -> some View {

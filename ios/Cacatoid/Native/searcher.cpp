@@ -32,45 +32,58 @@ const char* target_address(int puzzle) {
 
 constexpr int BATCH = 1000;
 
-std::mutex g_mutex;
+std::mutex  g_mutex;
 std::vector<std::thread> g_workers;
 std::thread g_monitor;
 
-std::atomic<bool> g_running{false};
-std::atomic<bool> g_found{false};
+std::atomic<bool>     g_running{false};
+std::atomic<bool>     g_found{false};
 std::atomic<uint64_t> g_total{0};
-std::atomic<uint64_t> g_cur_lo{0};
-std::atomic<uint64_t> g_cur_hi{0};
+
+// Display key: protected by g_display_mutex so the monitor always reads a
+// consistent 128-bit value (no torn read between lo and hi halves).
+std::mutex g_display_mutex;
+u128       g_display_key{0};
 
 stats_cb g_on_stats = nullptr;
 found_cb g_on_found = nullptr;
-void* g_cb_ctx = nullptr;
+void*    g_cb_ctx   = nullptr;
 
-u128 g_found_key = 0;
-int g_active_puzzle = 0;
+u128 g_found_key    = 0;
+int  g_active_puzzle = 0;
 
-// Keep a copy of targets so worker lambdas can safely reference them.
 uint8_t g_targets[3][20];
+
+// ── helpers ──────────────────────────────────────────────────────────────────
 
 void u128_to_key(u128 v, uint8_t key[32]) {
     memset(key, 0, 32);
     for (int i = 0; i < 16; i++) key[31 - i] = uint8_t(v >> (i * 8));
 }
 
+static const char HEX[] = "0123456789abcdef";
+
 std::string to_hex(const uint8_t* data, size_t len) {
-    static const char* H = "0123456789abcdef";
-    std::string s(len * 2, ' ');
+    std::string s(len * 2, '0');
     for (size_t i = 0; i < len; i++) {
-        s[i * 2]     = H[data[i] >> 4];
-        s[i * 2 + 1] = H[data[i] & 0xf];
+        s[i * 2]     = HEX[data[i] >> 4];
+        s[i * 2 + 1] = HEX[data[i] & 0xf];
     }
     return s;
 }
 
-std::string key_hex(u128 v) {
-    uint8_t key[32];
-    u128_to_key(v, key);
-    return to_hex(key, 32);
+// Converts u128 directly to hex with no leading zeros.
+// For puzzle-71 keys this always produces exactly 18 chars starting with 4/5/6/7.
+std::string u128_to_hex(u128 v) {
+    if (v == 0) return "0";
+    char buf[33];
+    buf[32] = '\0';
+    int pos = 32;
+    while (v > 0) {
+        buf[--pos] = HEX[v & 0xF];
+        v >>= 4;
+    }
+    return std::string(buf + pos, buf + 32);
 }
 
 std::string to_wif(const uint8_t key[32]) {
@@ -108,61 +121,64 @@ void report_found(u128 key_value, int puzzle) {
         g_on_found(priv_hex.c_str(), wif.c_str(), addr.c_str(), puzzle, g_cb_ctx);
 }
 
-void worker_run(u128 sub_start, u128 sub_end, int puzzle) {
-    ec::init();
-    const u128 len = sub_end - sub_start + 1;
+// ── worker ───────────────────────────────────────────────────────────────────
 
+void worker_run(u128 lo, u128 hi, int puzzle) {
+    ec::init();
+    // span is always 2^(puzzle-1) — a power of 2 — so bitmask gives exact uniform dist.
+    const u128 span = hi - lo + 1;
+    const u128 mask = span - 1;
+
+    // Seed from multiple independent sources so threads have distinct sequences
+    // even when std::random_device is deterministic (common on jailbroken iOS).
     std::random_device rd;
-    std::mt19937_64 rng(((uint64_t)rd() << 32) ^ rd());
-    u128 offset = ((u128)rng() << 64 | rng()) % len;
-    u128 cur = sub_start + offset;
+    uint64_t seed = ((uint64_t)rd() << 32) ^ rd();
+    seed ^= (uint64_t)Clock::now().time_since_epoch().count();
+    seed ^= (uint64_t)(uintptr_t)&seed; // stack address differs per thread (ASLR)
+    std::mt19937_64 rng(seed);
 
     uint8_t seckey[32];
-    u128_to_key(cur, seckey);
-    ec::PubKey pub;
-    if (!ec::pubkey_create(seckey, pub)) return;
-
     uint8_t hash[20];
-    u128 done  = 0;
     uint64_t local = 0;
+    u128 cur = lo;
 
-    while (done < len) {
-        if (g_found.load(std::memory_order_relaxed) ||
-            !g_running.load(std::memory_order_relaxed))
-            break;
+    while (!g_found.load(std::memory_order_relaxed) &&
+            g_running.load(std::memory_order_relaxed)) {
 
-        int b = 0;
-        for (; b < BATCH && done < len; b++, done++) {
-            ec::hash160_compressed(pub, hash);
-            for (int t = 0; t < 3; t++) {
-                if (memcmp(hash, g_targets[t], 20) == 0) {
-                    g_found_key = cur;
-                    bool expected = false;
-                    if (g_found.compare_exchange_strong(expected, true))
-                        report_found(cur, puzzle);
-                    g_total.fetch_add(local + b + 1, std::memory_order_relaxed);
-                    return;
-                }
-            }
-            if (cur == sub_end) {
-                cur = sub_start;
-                u128_to_key(cur, seckey);
-                if (!ec::pubkey_create(seckey, pub)) return;
-            } else {
-                cur++;
-                if (!ec::pubkey_increment(pub)) {
-                    u128_to_key(cur, seckey);
-                    if (!ec::pubkey_create(seckey, pub)) return;
-                }
+        // key = lo + random(0, span-1)
+        u128 rand128 = ((u128)rng() << 64) | (u128)rng();
+        cur = lo + (rand128 & mask);
+
+        u128_to_key(cur, seckey);
+        ec::PubKey pub;
+        if (!ec::pubkey_create(seckey, pub)) continue;
+
+        ec::hash160_compressed(pub, hash);
+
+        for (int t = 0; t < 3; t++) {
+            if (memcmp(hash, g_targets[t], 20) == 0) {
+                g_found_key = cur;
+                bool expected = false;
+                if (g_found.compare_exchange_strong(expected, true))
+                    report_found(cur, puzzle);
+                g_total.fetch_add(local + 1, std::memory_order_relaxed);
+                return;
             }
         }
-        local += b;
-        g_total.fetch_add(b, std::memory_order_relaxed);
-        g_cur_lo.store((uint64_t)cur,        std::memory_order_relaxed);
-        g_cur_hi.store((uint64_t)(cur >> 64), std::memory_order_relaxed);
-        local = 0;
+
+        local++;
+        if (local >= (uint64_t)BATCH) {
+            g_total.fetch_add(local, std::memory_order_relaxed);
+            // Write the full 128-bit key atomically so the monitor never sees
+            // a torn value (half from this thread, half from another).
+            { std::lock_guard<std::mutex> lk(g_display_mutex); g_display_key = cur; }
+            local = 0;
+        }
     }
+    if (local > 0) g_total.fetch_add(local, std::memory_order_relaxed);
 }
+
+// ── monitor ──────────────────────────────────────────────────────────────────
 
 void monitor_run() {
     uint64_t last_total = 0;
@@ -170,6 +186,7 @@ void monitor_run() {
 
     while (g_running.load(std::memory_order_relaxed) &&
            !g_found.load(std::memory_order_relaxed)) {
+
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
         auto     now   = Clock::now();
@@ -179,15 +196,17 @@ void monitor_run() {
         last_total = total;
         last_time  = now;
 
-        u128 cur = ((u128)g_cur_hi.load(std::memory_order_relaxed) << 64) |
-                    g_cur_lo.load(std::memory_order_relaxed);
+        u128 cur;
+        { std::lock_guard<std::mutex> lk(g_display_mutex); cur = g_display_key; }
 
         if (g_on_stats && g_cb_ctx) {
-            std::string hex = key_hex(cur);
+            std::string hex = u128_to_hex(cur);
             g_on_stats(hex.c_str(), (long long)kps, (long long)total, g_cb_ctx);
         }
     }
 }
+
+// ── cleanup ──────────────────────────────────────────────────────────────────
 
 void cleanup_locked() {
     g_running.store(false);
@@ -198,15 +217,14 @@ void cleanup_locked() {
 
 } // namespace
 
+// ── C interface ──────────────────────────────────────────────────────────────
+
 extern "C" void searcher_start(int puzzle, stats_cb on_stats, found_cb on_found, void* ctx) {
     std::lock_guard<std::mutex> lock(g_mutex);
     cleanup_locked();
 
     const char* addr = target_address(puzzle);
-    if (!addr) {
-        fprintf(stderr, "unsupported puzzle %d\n", puzzle);
-        return;
-    }
+    if (!addr) { fprintf(stderr, "unsupported puzzle %d\n", puzzle); return; }
 
     g_on_stats = on_stats;
     g_on_found = on_found;
@@ -225,32 +243,25 @@ extern "C" void searcher_start(int puzzle, stats_cb on_stats, found_cb on_found,
 
     g_found.store(false);
     g_total.store(0);
-    g_cur_lo.store((uint64_t)lo);
-    g_cur_hi.store((uint64_t)(lo >> 64));
+    { std::lock_guard<std::mutex> lk(g_display_mutex); g_display_key = lo; }
     g_active_puzzle = puzzle;
     g_running.store(true);
 
     unsigned hw = std::thread::hardware_concurrency();
     if (hw == 0) hw = 4;
-    u128 span = hi - lo + 1;
-    u128 per  = span / hw;
-    if (per == 0) { per = span; hw = 1; }
 
     fprintf(stderr, "start puzzle %d with %u threads\n", puzzle, hw);
 
-    for (unsigned i = 0; i < hw; i++) {
-        u128 s = lo + (u128)i * per;
-        u128 e = (i == hw - 1) ? hi : (lo + (u128)(i + 1) * per - 1);
-        g_workers.emplace_back([s, e, puzzle]() { worker_run(s, e, puzzle); });
-    }
+    for (unsigned i = 0; i < hw; i++)
+        g_workers.emplace_back([lo, hi, puzzle]() { worker_run(lo, hi, puzzle); });
+
     g_monitor = std::thread(monitor_run);
 }
 
 extern "C" void searcher_stop(void) {
     std::lock_guard<std::mutex> lock(g_mutex);
     cleanup_locked();
-    fprintf(stderr, "stopped; total checked=%llu\n",
-            (unsigned long long)g_total.load());
+    fprintf(stderr, "stopped; total=%llu\n", (unsigned long long)g_total.load());
     g_on_stats = nullptr;
     g_on_found = nullptr;
     g_cb_ctx   = nullptr;
