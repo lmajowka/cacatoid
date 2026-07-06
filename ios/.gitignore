@@ -1,0 +1,7 @@
+deps/
+lib/
+include/
+*.xcworkspace/xcuserdata/
+xcuserdata/
+DerivedData/
+*.ipa
