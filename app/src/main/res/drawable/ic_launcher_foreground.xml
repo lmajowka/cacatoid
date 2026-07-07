@@ -1,44 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- Cockatoo head + crest + breast (white silhouette) -->
-    <path
-        android:fillColor="#FFFFFFFF"
-        android:fillType="nonZero"
-        android:pathData="M52,84
-            C45,81 40,73 40,62
-            C40,54 39,48 41,42
-            C41,40 42,38 43,37
-            C40,33 38,28 40,23
-            C43,28 46,32 47,35
-            C48,31 49,26 52,22
-            C54,27 55,31 55,36
-            C58,31 61,28 65,26
-            C64,32 61,37 58,40
-            C61,41 64,44 66,48
-            L61,50
-            C59,52 57,54 55,56
-            C58,59 60,63 58,68
-            C56,74 54,80 52,84 Z" />
+    <group android:translateY="2">
 
-    <!-- Beak (dark hook) -->
-    <path
-        android:fillColor="#FF2B2B2B"
-        android:pathData="M65,47
-            C71,47 77,50 79,54
-            C77,57 73,58 69,57
-            C71,54 69,51 65,51 Z" />
+        <!-- Soft drop shadow of the whole bird -->
+        <group android:translateX="1.6" android:translateY="2">
+            <path
+                android:fillColor="#8A4A05"
+                android:fillAlpha="0.2"
+                android:pathData="M46,38 C42.4,34.2 41.2,29 42.3,24 C42.7,22.5 44.4,22.5 45,23.9 C46.9,27 47.6,30.4 47.3,33.6 C47.9,28.2 50.2,23.2 54,19.6 C55,18.6 56.5,19.3 56.4,20.7 C56.1,25 55.1,29.4 53.6,33 C56.6,29.4 59.9,26.6 63.9,25.6 C65.3,25.3 65.8,26.6 65.1,27.7 C63,31.7 60.4,34.7 57.4,36.5 L57.5,39.5 L46,40 Z" />
+            <path
+                android:fillColor="#8A4A05"
+                android:fillAlpha="0.2"
+                android:pathData="M36.5,55 C36.5,46.5 40,40.5 46,38 C49.5,35.9 54,35.3 57.4,36.5 C62,37.6 65.5,40 67.6,43.6 C70.4,48.6 70.2,55.4 66.8,60.2 C64.8,62.8 62.8,64.4 61.4,65 C64.8,70.4 66.2,82 65.4,94 L41.5,94 C40.5,84 40,76 40.5,70 C38,66.5 36.5,61 36.5,55 Z" />
+            <path
+                android:fillColor="#8A4A05"
+                android:fillAlpha="0.2"
+                android:pathData="M62.5,41.5 C68,41 73.5,43.5 76.5,48 C79,52 78.5,57 75,60.5 C73.5,61.8 71.8,61 72,59.3 C72.4,55.8 70.4,51.8 66,50.2 C63.5,49.2 61.8,45.8 62.5,41.5 Z" />
+        </group>
 
-    <!-- Eye -->
-    <path
-        android:fillColor="#FF2B2B2B"
-        android:pathData="M54,43.6
-            C55.3,43.6 56.4,44.7 56.4,46
-            C56.4,47.3 55.3,48.4 54,48.4
-            C52.7,48.4 51.6,47.3 51.6,46
-            C51.6,44.7 52.7,43.6 54,43.6 Z" />
+        <!-- Sulphur crest -->
+        <path android:pathData="M46,38 C42.4,34.2 41.2,29 42.3,24 C42.7,22.5 44.4,22.5 45,23.9 C46.9,27 47.6,30.4 47.3,33.6 C47.9,28.2 50.2,23.2 54,19.6 C55,18.6 56.5,19.3 56.4,20.7 C56.1,25 55.1,29.4 53.6,33 C56.6,29.4 59.9,26.6 63.9,25.6 C65.3,25.3 65.8,26.6 65.1,27.7 C63,31.7 60.4,34.7 57.4,36.5 L57.5,39.5 L46,40 Z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:startX="50"
+                    android:startY="21"
+                    android:endX="50"
+                    android:endY="40"
+                    android:type="linear">
+                    <item android:color="#FFFFE264" android:offset="0.0" />
+                    <item android:color="#FFFFC02E" android:offset="1.0" />
+                </gradient>
+            </aapt:attr>
+        </path>
+
+        <!-- Head and chest -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M36.5,55 C36.5,46.5 40,40.5 46,38 C49.5,35.9 54,35.3 57.4,36.5 C62,37.6 65.5,40 67.6,43.6 C70.4,48.6 70.2,55.4 66.8,60.2 C64.8,62.8 62.8,64.4 61.4,65 C64.8,70.4 66.2,82 65.4,94 L41.5,94 C40.5,84 40,76 40.5,70 C38,66.5 36.5,61 36.5,55 Z" />
+
+        <!-- Hooked beak -->
+        <path
+            android:fillColor="#33302C"
+            android:pathData="M62.5,41.5 C68,41 73.5,43.5 76.5,48 C79,52 78.5,57 75,60.5 C73.5,61.8 71.8,61 72,59.3 C72.4,55.8 70.4,51.8 66,50.2 C63.5,49.2 61.8,45.8 62.5,41.5 Z" />
+
+        <!-- Eye -->
+        <path
+            android:fillColor="#33302C"
+            android:pathData="M53.6,44.4 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0 Z" />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M56.7,43.3 a1,1 0 1,0 2,0 a1,1 0 1,0 -2,0 Z" />
+    </group>
 </vector>
