@@ -4,7 +4,7 @@ An Android app that searches for the private key to unsolved [Bitcoin Puzzle](ht
 
 > ⚠️ **For fun and learning.** The puzzles Cacatoid targets (71, 72, 73) have key spaces of roughly 2⁷⁰–2⁷². A modern phone checks a few hundred thousand to a few million keys per second, so the odds of an actual hit are astronomically small. Treat this as a demonstration of secp256k1 cryptography and Android background processing, not a get-rich plan.
 
-(Download app)[https://bitcoinpuzzles.io/pt/cacatoid]
+[Download app](https://bitcoinpuzzles.io/pt/cacatoid)
 
 
 [![Video Explicativo](https://img.youtube.com/vi/ciO2_UeXU0U/0.jpg)](https://www.youtube.com/watch?v=ciO2_UeXU0U)
